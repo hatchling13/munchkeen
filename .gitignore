@@ -1,0 +1,20 @@
+# Build output
+/dist
+
+# Dependencies
+/node_modules
+
+# Environment
+.env
+.env*.local
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+*.launch
+.settings/
+
+# System files
+.DS_Store
+Thumbs.db
