@@ -91,7 +91,10 @@ describe("IO", () => {
   });
 
   it("chains wrapped effects without collapsing IO into a plain thunk", () => {
-    const effect = flatMapIO(io(() => 4), (value) => io(() => value * 2));
+    const effect = flatMapIO(
+      io(() => 4),
+      (value) => io(() => value * 2),
+    );
 
     expect(effect._tag).toBe("IO");
     expect(unsafeRunIO(effect)).toBe(8);
@@ -110,11 +113,7 @@ describe("ReadonlyNonEmptyArray", () => {
     if (isJust(values)) {
       expect(head(values.value)).toBe(1);
       expect(tail(values.value)).toEqual([2, 3]);
-      expect(mapReadonlyNonEmptyArray(values.value, String)).toEqual([
-        "1",
-        "2",
-        "3",
-      ]);
+      expect(mapReadonlyNonEmptyArray(values.value, String)).toEqual(["1", "2", "3"]);
     }
   });
 

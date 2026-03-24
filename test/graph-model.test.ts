@@ -33,9 +33,7 @@ const validatePerson: GraphSchemaValidator<{ readonly name: string }> = (value) 
   return right({ name: value.name });
 };
 
-const validateCompany: GraphSchemaValidator<{ readonly domain: string }> = (
-  value,
-) => {
+const validateCompany: GraphSchemaValidator<{ readonly domain: string }> = (value) => {
   if (!isRecord(value) || typeof value.domain !== "string") {
     return left({
       code: "invalid_company",
@@ -48,9 +46,7 @@ const validateCompany: GraphSchemaValidator<{ readonly domain: string }> = (
   return right({ domain: value.domain });
 };
 
-const validateWorksAt: GraphSchemaValidator<{ readonly since: number }> = (
-  value,
-) => {
+const validateWorksAt: GraphSchemaValidator<{ readonly since: number }> = (value) => {
   if (!isRecord(value) || typeof value.since !== "number") {
     return left({
       code: "invalid_works_at",
@@ -167,9 +163,7 @@ describe("graph schema", () => {
     expect(personNode.kind).toBe("person");
     expect(personNode.data?.name).toBe("Ada");
 
-    expectTypeOf<NodeKindFromSchema<typeof schema>>().toEqualTypeOf<
-      "person" | "company"
-    >();
+    expectTypeOf<NodeKindFromSchema<typeof schema>>().toEqualTypeOf<"person" | "company">();
     expectTypeOf<EdgeKindFromSchema<typeof schema>>().toEqualTypeOf<"worksAt">();
     expectTypeOf<NodeDataFromSchema<typeof schema, "person">>().toEqualTypeOf<{
       readonly name: string;

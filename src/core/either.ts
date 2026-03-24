@@ -23,11 +23,9 @@ export const right = <A>(value: A): Right<A> => ({
   right: value,
 });
 
-export const isLeft = <E, A>(either: Either<E, A>): either is Left<E> =>
-  either._tag === "Left";
+export const isLeft = <E, A>(either: Either<E, A>): either is Left<E> => either._tag === "Left";
 
-export const isRight = <E, A>(either: Either<E, A>): either is Right<A> =>
-  either._tag === "Right";
+export const isRight = <E, A>(either: Either<E, A>): either is Right<A> => either._tag === "Right";
 
 export const matchEither = <E, A, B>(
   either: Either<E, A>,
@@ -35,16 +33,10 @@ export const matchEither = <E, A, B>(
   onRight: (value: A) => B,
 ): B => (isLeft(either) ? onLeft(either.left) : onRight(either.right));
 
-export const mapEither = <E, A, B>(
-  either: Either<E, A>,
-  map: (value: A) => B,
-): Either<E, B> =>
+export const mapEither = <E, A, B>(either: Either<E, A>, map: (value: A) => B): Either<E, B> =>
   isLeft(either) ? left(either.left) : right(map(either.right));
 
-export const mapLeft = <E, A, F>(
-  either: Either<E, A>,
-  map: (error: E) => F,
-): Either<F, A> =>
+export const mapLeft = <E, A, F>(either: Either<E, A>, map: (error: E) => F): Either<F, A> =>
   isLeft(either) ? left(map(either.left)) : right(either.right);
 
 export const flatMapEither = <E, A, B>(
@@ -52,7 +44,5 @@ export const flatMapEither = <E, A, B>(
   map: (value: A) => Either<E, B>,
 ): Either<E, B> => (isLeft(either) ? left(either.left) : map(either.right));
 
-export const getOrElseEither = <E, A>(
-  either: Either<E, A>,
-  onLeft: (error: E) => A,
-): A => matchEither(either, onLeft, (value) => value);
+export const getOrElseEither = <E, A>(either: Either<E, A>, onLeft: (error: E) => A): A =>
+  matchEither(either, onLeft, (value) => value);

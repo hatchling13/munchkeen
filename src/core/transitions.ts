@@ -66,8 +66,7 @@ const toOptionalList = <A>(values: readonly A[]): readonly A[] | undefined =>
 const mergeUnique = <A>(
   currentValues: readonly A[] | undefined,
   nextValues: readonly A[],
-): readonly A[] | undefined =>
-  toOptionalList(dedupe([...(currentValues ?? []), ...nextValues]));
+): readonly A[] | undefined => toOptionalList(dedupe([...(currentValues ?? []), ...nextValues]));
 
 const removeValues = <A>(
   currentValues: readonly A[] | undefined,
@@ -79,9 +78,7 @@ const removeValues = <A>(
 
   const uniqueValuesToRemove = dedupe(valuesToRemove);
 
-  return toOptionalList(
-    currentValues.filter((value) => !uniqueValuesToRemove.includes(value)),
-  );
+  return toOptionalList(currentValues.filter((value) => !uniqueValuesToRemove.includes(value)));
 };
 
 const withFocus = (view: GraphView, focus: NodeId | null): GraphView =>

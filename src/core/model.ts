@@ -56,9 +56,9 @@ export type GraphSchemaValidator<
   Error extends GraphSchemaError = GraphSchemaError,
 > = (value: unknown) => Either<Error, Value>;
 
-type GraphSchemaValidatorMap<
-  Error extends GraphSchemaError = GraphSchemaError,
-> = Readonly<Record<string, GraphSchemaValidator<unknown, Error>>>;
+type GraphSchemaValidatorMap<Error extends GraphSchemaError = GraphSchemaError> = Readonly<
+  Record<string, GraphSchemaValidator<unknown, Error>>
+>;
 
 export type GraphSchema<
   NodeKinds extends GraphSchemaValidatorMap = GraphSchemaValidatorMap,
@@ -97,20 +97,22 @@ export type EdgeDataFromSchema<
 export type GraphNodeFromSchema<
   TSchema extends GraphSchema,
   TKind extends NodeKindFromSchema<TSchema> = NodeKindFromSchema<TSchema>,
-> = TKind extends NodeKindFromSchema<TSchema>
-  ? Omit<GraphNode<NodeDataFromSchema<TSchema, TKind>, TKind>, "kind"> & {
-      readonly kind: TKind;
-    }
-  : never;
+> =
+  TKind extends NodeKindFromSchema<TSchema>
+    ? Omit<GraphNode<NodeDataFromSchema<TSchema, TKind>, TKind>, "kind"> & {
+        readonly kind: TKind;
+      }
+    : never;
 
 export type GraphEdgeFromSchema<
   TSchema extends GraphSchema,
   TKind extends EdgeKindFromSchema<TSchema> = EdgeKindFromSchema<TSchema>,
-> = TKind extends EdgeKindFromSchema<TSchema>
-  ? Omit<GraphEdge<EdgeDataFromSchema<TSchema, TKind>, TKind>, "kind"> & {
-      readonly kind: TKind;
-    }
-  : never;
+> =
+  TKind extends EdgeKindFromSchema<TSchema>
+    ? Omit<GraphEdge<EdgeDataFromSchema<TSchema, TKind>, TKind>, "kind"> & {
+        readonly kind: TKind;
+      }
+    : never;
 
 export type GraphDataFromSchema<TSchema extends GraphSchema> = {
   readonly nodes: readonly GraphNodeFromSchema<TSchema>[];

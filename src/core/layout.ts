@@ -3,10 +3,7 @@ import { left, right, type Either } from "./either";
 import { isJust } from "./maybe";
 import type { NodeId } from "./model";
 import type { ProjectedGraph } from "./project";
-import {
-  fromReadonlyArray,
-  type ReadonlyNonEmptyArray,
-} from "./readonly-non-empty-array";
+import { fromReadonlyArray, type ReadonlyNonEmptyArray } from "./readonly-non-empty-array";
 
 export type LayoutPosition = {
   readonly x: number;
@@ -95,12 +92,7 @@ const RADIAL_RING_RADIUS = 160;
 const BREADTHFIRST_NODE_GAP = 180;
 const BREADTHFIRST_LEVEL_GAP = 140;
 
-const buildLaidOutGraph = <
-  NodeData,
-  EdgeData,
-  NodeKind extends string,
-  EdgeKind extends string,
->(
+const buildLaidOutGraph = <NodeData, EdgeData, NodeKind extends string, EdgeKind extends string>(
   graph: ProjectedGraph<NodeData, EdgeData, NodeKind, EdgeKind>,
   positions: ReadonlyMap<NodeId, LayoutPosition>,
 ): LaidOutGraph<NodeData, EdgeData, NodeKind, EdgeKind> => ({
@@ -115,12 +107,7 @@ const buildLaidOutGraph = <
   positions,
 });
 
-const resolveLayoutRoot = <
-  NodeData,
-  EdgeData,
-  NodeKind extends string,
-  EdgeKind extends string,
->(
+const resolveLayoutRoot = <NodeData, EdgeData, NodeKind extends string, EdgeKind extends string>(
   graph: ProjectedGraph<NodeData, EdgeData, NodeKind, EdgeKind>,
   kind: MissingLayoutRootLayoutError["kind"],
   root: NodeId | undefined,
@@ -149,12 +136,7 @@ const orderPositions = (
     }),
   );
 
-const runPresetLayout = <
-  NodeData,
-  EdgeData,
-  NodeKind extends string,
-  EdgeKind extends string,
->(
+const runPresetLayout = <NodeData, EdgeData, NodeKind extends string, EdgeKind extends string>(
   graph: ProjectedGraph<NodeData, EdgeData, NodeKind, EdgeKind>,
   layout: PresetLayoutSpec,
 ): Either<LayoutError, LaidOutGraph<NodeData, EdgeData, NodeKind, EdgeKind>> => {
@@ -180,12 +162,7 @@ const runPresetLayout = <
   return right(buildLaidOutGraph(graph, positions));
 };
 
-const runRadialLayout = <
-  NodeData,
-  EdgeData,
-  NodeKind extends string,
-  EdgeKind extends string,
->(
+const runRadialLayout = <NodeData, EdgeData, NodeKind extends string, EdgeKind extends string>(
   graph: ProjectedGraph<NodeData, EdgeData, NodeKind, EdgeKind>,
   layout: RadialLayoutSpec,
 ): Either<LayoutError, LaidOutGraph<NodeData, EdgeData, NodeKind, EdgeKind>> => {
@@ -211,8 +188,8 @@ const runRadialLayout = <
       return [
         nodeId,
         {
-        x: center.x + Math.cos(angle) * RADIAL_RING_RADIUS,
-        y: center.y + Math.sin(angle) * RADIAL_RING_RADIUS,
+          x: center.x + Math.cos(angle) * RADIAL_RING_RADIUS,
+          y: center.y + Math.sin(angle) * RADIAL_RING_RADIUS,
         },
       ] as const;
     }),
@@ -230,23 +207,24 @@ const buildNeighborIdsByNodeId = <
   graph: ProjectedGraph<NodeData, EdgeData, NodeKind, EdgeKind>,
 ): ReadonlyMap<NodeId, readonly NodeId[]> =>
   mapFromEntries(
-    graph.nodeIds.map((nodeId) =>
-      [
-        nodeId,
-        dedupe(
-          graph.edges.flatMap((edge) => {
-            if (edge.source === nodeId) {
-              return [edge.target];
-            }
+    graph.nodeIds.map(
+      (nodeId) =>
+        [
+          nodeId,
+          dedupe(
+            graph.edges.flatMap((edge) => {
+              if (edge.source === nodeId) {
+                return [edge.target];
+              }
 
-            if (edge.target === nodeId) {
-              return [edge.source];
-            }
+              if (edge.target === nodeId) {
+                return [edge.source];
+              }
 
-            return [];
-          }),
-        ),
-      ] as const,
+              return [];
+            }),
+          ),
+        ] as const,
     ),
   );
 

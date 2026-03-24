@@ -148,8 +148,7 @@ describe("validateGraph", () => {
     if (isLeft(result)) {
       expect(result.left).toHaveLength(4);
 
-      const [duplicateNodeId, duplicateEdgeId, danglingTarget, danglingSource] =
-        result.left;
+      const [duplicateNodeId, duplicateEdgeId, danglingTarget, danglingSource] = result.left;
 
       expect(duplicateNodeId).toEqual({
         code: "duplicate_node_id",

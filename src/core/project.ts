@@ -1,12 +1,7 @@
 import { dedupe, mapFromEntries } from "./collections";
 import { left, right, type Either } from "./either";
 import type { EdgeId, GraphNeighborhood, GraphView, NodeId } from "./model";
-import type {
-  NodeAdjacency,
-  ValidatedEdge,
-  ValidatedGraph,
-  ValidatedNode,
-} from "./validate";
+import type { NodeAdjacency, ValidatedEdge, ValidatedGraph, ValidatedNode } from "./validate";
 
 export type MissingFocusNodeProjectionError = {
   readonly code: "missing_focus_node";
@@ -287,12 +282,6 @@ export const projectGraph = <
   }
 
   return right(
-    buildProjectedGraph(
-      graph,
-      graph.nodeIds,
-      undefined,
-      view?.hiddenNodeIds,
-      view?.hiddenEdgeIds,
-    ),
+    buildProjectedGraph(graph, graph.nodeIds, undefined, view?.hiddenNodeIds, view?.hiddenEdgeIds),
   );
 };

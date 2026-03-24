@@ -20,13 +20,7 @@ describe("projectGraph", () => {
     const edgeAlphaEpsilon = edgeId("alpha-epsilon");
 
     const validated = validateGraph({
-      nodes: [
-        { id: alpha },
-        { id: beta },
-        { id: gamma },
-        { id: delta },
-        { id: epsilon },
-      ],
+      nodes: [{ id: alpha }, { id: beta }, { id: gamma }, { id: delta }, { id: epsilon }],
       edges: [
         { id: edgeAlphaBeta, source: alpha, target: beta, directed: true },
         { id: edgeGammaAlpha, source: gamma, target: alpha, directed: true },
@@ -53,11 +47,7 @@ describe("projectGraph", () => {
 
       if (isRight(result)) {
         expect(result.right.nodeIds).toEqual([alpha, beta, delta, epsilon]);
-        expect(result.right.edgeIds).toEqual([
-          edgeAlphaBeta,
-          edgeBetaDelta,
-          edgeAlphaEpsilon,
-        ]);
+        expect(result.right.edgeIds).toEqual([edgeAlphaBeta, edgeBetaDelta, edgeAlphaEpsilon]);
       }
     }
   });

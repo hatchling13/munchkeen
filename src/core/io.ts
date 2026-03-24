@@ -16,7 +16,5 @@ export const unsafeRunIO = <A>(effect: IO<A>): A => effect.run();
 export const mapIO = <A, B>(effect: IO<A>, map: (value: A) => B): IO<B> =>
   io(() => map(unsafeRunIO(effect)));
 
-export const flatMapIO = <A, B>(
-  effect: IO<A>,
-  map: (value: A) => IO<B>,
-): IO<B> => io(() => unsafeRunIO(map(unsafeRunIO(effect))));
+export const flatMapIO = <A, B>(effect: IO<A>, map: (value: A) => IO<B>): IO<B> =>
+  io(() => unsafeRunIO(map(unsafeRunIO(effect))));

@@ -7,9 +7,7 @@ export const isReadonlyNonEmptyArray = <A>(
   values: readonly A[],
 ): values is ReadonlyNonEmptyArray<A> => values.length > 0;
 
-export const fromReadonlyArray = <A>(
-  values: readonly A[],
-): Maybe<ReadonlyNonEmptyArray<A>> =>
+export const fromReadonlyArray = <A>(values: readonly A[]): Maybe<ReadonlyNonEmptyArray<A>> =>
   isReadonlyNonEmptyArray(values) ? just(values) : nothing;
 
 export const head = <A>(values: ReadonlyNonEmptyArray<A>): A => values[0];

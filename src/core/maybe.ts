@@ -23,11 +23,9 @@ export const just = <A>(value: A): Just<A> => ({
   value,
 });
 
-export const isNothing = <A>(maybe: Maybe<A>): maybe is Nothing =>
-  maybe._tag === "Nothing";
+export const isNothing = <A>(maybe: Maybe<A>): maybe is Nothing => maybe._tag === "Nothing";
 
-export const isJust = <A>(maybe: Maybe<A>): maybe is Just<A> =>
-  maybe._tag === "Just";
+export const isJust = <A>(maybe: Maybe<A>): maybe is Just<A> => maybe._tag === "Just";
 
 export const matchMaybe = <A, B>(
   maybe: Maybe<A>,
@@ -35,12 +33,8 @@ export const matchMaybe = <A, B>(
   onJust: (value: A) => B,
 ): B => (isNothing(maybe) ? onNothing() : onJust(maybe.value));
 
-export const mapMaybe = <A, B>(
-  maybe: Maybe<A>,
-  map: (value: A) => B,
-): Maybe<B> => (isNothing(maybe) ? nothing : just(map(maybe.value)));
+export const mapMaybe = <A, B>(maybe: Maybe<A>, map: (value: A) => B): Maybe<B> =>
+  isNothing(maybe) ? nothing : just(map(maybe.value));
 
-export const flatMapMaybe = <A, B>(
-  maybe: Maybe<A>,
-  map: (value: A) => Maybe<B>,
-): Maybe<B> => (isNothing(maybe) ? nothing : map(maybe.value));
+export const flatMapMaybe = <A, B>(maybe: Maybe<A>, map: (value: A) => Maybe<B>): Maybe<B> =>
+  isNothing(maybe) ? nothing : map(maybe.value);
