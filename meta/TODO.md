@@ -92,21 +92,25 @@ Exit criteria:
 
 Depends on: Step 0
 
+Status:
+
+- Completed
+
 Produces:
 
 - minimal internal prelude for type-safe, predictable core code
 
 Tasks:
 
-- [ ] Implement a small internal `Brand` utility.
-- [ ] Implement a minimal `Either<E, A>` type and helpers with conventional `Left` and `Right` semantics.
-- [ ] Implement `Thunk<A>` as the most general suspended synchronous computation type.
-- [ ] Implement `Maybe<A>` with conventional `Nothing` and `Just` semantics.
-- [ ] Implement `IO<A>` as a semantic effect type over suspended synchronous computation rather than as a synonym for every thunk.
-- [ ] Implement only the additional primitives that are immediately needed, likely `ReadonlyNonEmptyArray`, `Dispose`, and `Subscription`.
-- [ ] Keep async effect helpers adapter-local unless a concrete core need appears.
-- [ ] Decide which helpers are value-level functions versus type-only utilities.
-- [ ] Keep this layer intentionally small and local to the package.
+- [x] Implement a small internal `Brand` utility.
+- [x] Implement a minimal `Either<E, A>` type and helpers with conventional `Left` and `Right` semantics.
+- [x] Implement `Thunk<A>` as the most general suspended synchronous computation type.
+- [x] Implement `Maybe<A>` with conventional `Nothing` and `Just` semantics.
+- [x] Implement `IO<A>` as a semantic effect type over suspended synchronous computation rather than as a synonym for every thunk.
+- [x] Implement only the additional primitives that are immediately needed, likely `ReadonlyNonEmptyArray`, `Dispose`, and `Subscription`.
+- [x] Keep async effect helpers adapter-local unless a concrete core need appears.
+- [x] Decide which helpers are value-level functions versus type-only utilities.
+- [x] Keep this layer intentionally small and local to the package.
 
 Exit criteria:
 
@@ -115,6 +119,10 @@ Exit criteria:
 ## Step 2: Graph Model And Schema
 
 Depends on: Step 0
+
+Status:
+
+- Completed
 
 Produces:
 
@@ -125,14 +133,14 @@ Produces:
 
 Tasks:
 
-- [ ] Define `NodeId` and `EdgeId` branded types.
-- [ ] Define the public graph input model around `GraphData`.
-- [ ] Define `GraphSchema` as an optional companion to `GraphData`, not a replacement for it.
-- [ ] Define a library-neutral validator contract for schema-backed runtime validation.
-- [ ] Ensure future third-party schema libraries can be added through adapters rather than public API coupling.
-- [ ] Decide how much schema-aware `kind -> data` typing is practical in the first pass without weakening type-safety.
-- [ ] Add readonly constraints across public graph values.
-- [ ] Define public helper constructors only if they materially improve safety.
+- [x] Define `NodeId` and `EdgeId` branded types.
+- [x] Define the public graph input model around `GraphData`.
+- [x] Define `GraphSchema` as an optional companion to `GraphData`, not a replacement for it.
+- [x] Define a library-neutral validator contract for schema-backed runtime validation.
+- [x] Ensure future third-party schema libraries can be added through adapters rather than public API coupling.
+- [x] Decide how much schema-aware `kind -> data` typing is practical in the first pass without weakening type-safety.
+- [x] Add readonly constraints across public graph values.
+- [x] Define public helper constructors only if they materially improve safety.
 
 Exit criteria:
 
@@ -141,6 +149,10 @@ Exit criteria:
 ## Step 3: Validation And Normalization
 
 Depends on: Step 1, Step 2
+
+Status:
+
+- Completed
 
 Produces:
 
@@ -151,13 +163,13 @@ Produces:
 
 Tasks:
 
-- [ ] Define validation error types.
-- [ ] Validate duplicate node ids.
-- [ ] Validate duplicate edge ids.
-- [ ] Validate dangling edge references.
-- [ ] Normalize defaults and optional fields into stricter internal values.
-- [ ] Build deterministic indexes such as `nodeById`, `edgeById`, and adjacency lookup structures.
-- [ ] Ensure the output is opaque enough that later stages cannot accidentally bypass validation guarantees.
+- [x] Define validation error types.
+- [x] Validate duplicate node ids.
+- [x] Validate duplicate edge ids.
+- [x] Validate dangling edge references.
+- [x] Normalize defaults and optional fields into stricter internal values.
+- [x] Build deterministic indexes such as `nodeById`, `edgeById`, and adjacency lookup structures.
+- [x] Ensure the output is opaque enough that later stages cannot accidentally bypass validation guarantees.
 
 Exit criteria:
 
@@ -167,6 +179,10 @@ Exit criteria:
 
 Depends on: Step 2
 
+Status:
+
+- Completed
+
 Produces:
 
 - public `GraphView`
@@ -174,11 +190,11 @@ Produces:
 
 Tasks:
 
-- [ ] Define the initial public `GraphView` type.
-- [ ] Identify invalid state combinations and decide where unions should replace broad optional fields.
-- [ ] Define transition events such as focus change, selection change, expand, collapse, and visibility updates.
-- [ ] Implement pure transition helpers or reducers.
-- [ ] Decide which viewport-related updates belong in the semantic view model and which remain renderer-local.
+- [x] Define the initial public `GraphView` type.
+- [x] Identify invalid state combinations and decide where unions should replace broad optional fields.
+- [x] Define transition events such as focus change, selection change, expand, collapse, and visibility updates.
+- [x] Implement pure transition helpers or reducers.
+- [x] Decide which viewport-related updates belong in the semantic view model and which remain renderer-local.
 
 Exit criteria:
 
@@ -188,6 +204,10 @@ Exit criteria:
 
 Depends on: Step 3, Step 4
 
+Status:
+
+- Completed
+
 Produces:
 
 - `projectGraph`
@@ -195,12 +215,12 @@ Produces:
 
 Tasks:
 
-- [ ] Define projection inputs and outputs explicitly.
-- [ ] Implement focus-driven neighborhood projection.
-- [ ] Implement hidden node and edge filtering.
-- [ ] Define deterministic ordering rules for projected nodes and edges.
-- [ ] Decide how projection failures or empty projections are represented.
-- [ ] Keep the projection output renderer-agnostic.
+- [x] Define projection inputs and outputs explicitly.
+- [x] Implement focus-driven neighborhood projection.
+- [x] Implement hidden node and edge filtering.
+- [x] Define deterministic ordering rules for projected nodes and edges.
+- [x] Decide how projection failures or empty projections are represented.
+- [x] Keep the projection output renderer-agnostic.
 
 Exit criteria:
 
@@ -210,6 +230,10 @@ Exit criteria:
 
 Depends on: Step 5
 
+Status:
+
+- Completed
+
 Produces:
 
 - layout contracts
@@ -218,13 +242,13 @@ Produces:
 
 Tasks:
 
-- [ ] Define the layout strategy contract.
-- [ ] Define portable layout output types.
-- [ ] Implement `preset`.
-- [ ] Implement `radial`.
-- [ ] Implement `breadthfirst`.
-- [ ] Decide how layout failures are represented as data.
-- [ ] Mark renderer-native layouts as adapter-level concerns rather than core contracts.
+- [x] Define the layout strategy contract.
+- [x] Define portable layout output types.
+- [x] Implement `preset`.
+- [x] Implement `radial`.
+- [x] Implement `breadthfirst`.
+- [x] Decide how layout failures are represented as data.
+- [x] Mark renderer-native layouts as adapter-level concerns rather than core contracts.
 
 Exit criteria:
 

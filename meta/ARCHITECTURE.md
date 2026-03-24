@@ -438,7 +438,7 @@ The public API should express graph exploration concerns directly.
     focus: focus(),
     neighborhood: { radius: 1, direction: "both" },
   }}
-  layout={layouts.radial()}
+  layout={{ kind: "radial" }}
   theme={theme}
   renderer={renderers.cytoscape()}
   onNodeActivate={(node) => setFocus(node.id)}
