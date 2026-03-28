@@ -130,7 +130,7 @@ pnpm docs:build
 
 The output is written to `dev/dist`.
 
-## Cloudflare Workers Deployment
+## Cloudflare Workers Builds
 
 The repo includes a Cloudflare Workers static-assets setup for publishing the docs playground to:
 
@@ -148,17 +148,39 @@ The Worker stays intentionally thin:
 - `/api/*` is reserved for future Worker-side functionality
 - `/api/health` is included as a minimal smoke-check endpoint
 
-Deploy the docs with:
+The intended production path is **Workers Builds**, not local deploys.
+
+Recommended Cloudflare project settings:
+
+- Worker name: `munchkeen-docs`
+- Production branch: your default branch, usually `main`
+- Build command: `pnpm docs:build`
+- Deploy command: leave the default `wrangler deploy` command unless you later decide to pin Wrangler separately
+
+Recommended build variables:
+
+- `NODE_VERSION=22.12.0`
+- `PNPM_VERSION=10.32.1`
+
+The repository includes `.node-version` and `.nvmrc` so the target Node version stays visible in local development and in Cloudflare's build image.
+
+For local verification before pushing:
 
 ```bash
-pnpm docs:deploy
+pnpm docs:build
+```
+
+If you need a manual fallback deploy from your machine:
+
+```bash
+pnpm docs:deploy:manual
 ```
 
 Notes:
 
 - This assumes `hatchling.dev` is already managed in Cloudflare.
 - The `munchkeen.hatchling.dev` custom domain must not already be occupied by another DNS record or Worker route.
-- The deploy script uses `pnpm dlx wrangler deploy`, so the first deploy may download `wrangler` if it is not already available locally.
+- The manual fallback script uses `pnpm dlx wrangler deploy`, so the first local deploy may download `wrangler` if it is not already available locally.
 
 ## Pure Core vs Adapter Escape Hatches
 

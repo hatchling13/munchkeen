@@ -48,7 +48,7 @@
     "dev": "vite serve dev --config dev/vite.config.ts",
     "docs:dev": "pnpm dev",
     "docs:build": "vite build dev --config dev/vite.config.ts",
-    "docs:deploy": "pnpm docs:build && pnpm dlx wrangler deploy",
+    "docs:deploy:manual": "pnpm docs:build && pnpm dlx wrangler deploy",
     "build": "tsdown",
     "test": "concurrently pnpm:test:*",
     "test:client": "vitest",
