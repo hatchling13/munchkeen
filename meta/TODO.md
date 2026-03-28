@@ -33,7 +33,7 @@ flowchart TD
   S9["Step 9: Cytoscape adapter"]
   S10["Step 10: Solid integration"]
   S11["Step 11: Testing and hardening"]
-  S12["Step 12: Documentation and examples"]
+  S12["Step 12: Packaging, documentation, and examples"]
 
   S0 --> S1
   S0 --> S2
@@ -258,6 +258,10 @@ Exit criteria:
 
 Depends on: Step 5, Step 6
 
+Status:
+
+- Completed
+
 Produces:
 
 - semantic theme model
@@ -266,12 +270,12 @@ Produces:
 
 Tasks:
 
-- [ ] Define `NodeAppearance` and `EdgeAppearance`.
-- [ ] Define the public `GraphTheme` shape.
-- [ ] Decide how strongly theme keys are tied to node and edge kinds.
-- [ ] Implement pure theme resolution.
-- [ ] Define `RenderScene` as the last renderer-agnostic value.
-- [ ] Ensure scene contents are sufficient for rendering without leaking renderer-specific semantics.
+- [x] Define `NodeAppearance` and `EdgeAppearance`.
+- [x] Define the public `GraphTheme` shape.
+- [x] Decide how strongly theme keys are tied to node and edge kinds.
+- [x] Implement pure theme resolution.
+- [x] Define `RenderScene` as the last renderer-agnostic value.
+- [x] Ensure scene contents are sufficient for rendering without leaking renderer-specific semantics.
 
 Exit criteria:
 
@@ -281,6 +285,10 @@ Exit criteria:
 
 Depends on: Step 7
 
+Status:
+
+- Completed
+
 Produces:
 
 - `RenderCommand`
@@ -289,12 +297,12 @@ Produces:
 
 Tasks:
 
-- [ ] Define the command algebra for renderer work.
-- [ ] Define the first-pass minimal diff semantics for scene-to-scene updates.
-- [ ] Implement deterministic minimal scene diffing.
-- [ ] Keep commands semantic where possible and renderer-specific only where necessary.
-- [ ] Define ordering and conflict resolution rules for minimal diff commands.
-- [ ] Define command batches and failure surfaces clearly.
+- [x] Define the command algebra for renderer work.
+- [x] Define the first-pass minimal diff semantics for scene-to-scene updates.
+- [x] Implement deterministic minimal scene diffing.
+- [x] Keep commands semantic where possible and renderer-specific only where necessary.
+- [x] Define ordering and conflict resolution rules for minimal diff commands.
+- [x] Define command batches and failure surfaces clearly.
 
 Exit criteria:
 
@@ -304,6 +312,10 @@ Exit criteria:
 
 Depends on: Step 3, Step 6, Step 8
 
+Status:
+
+- Completed
+
 Produces:
 
 - Cytoscape renderer contract
@@ -312,13 +324,14 @@ Produces:
 
 Tasks:
 
-- [ ] Define the renderer adapter interface.
-- [ ] Implement Cytoscape instance creation and disposal.
-- [ ] Implement command interpretation with `cy.batch(...)` where appropriate.
-- [ ] Translate semantic theme data into Cytoscape stylesheet data.
-- [ ] Decide how Cytoscape-native layouts are surfaced and how their results flow back out.
-- [ ] Normalize Cytoscape events into public interaction events.
-- [ ] Wrap engine exceptions into adapter-level error values.
+- [x] Define the renderer adapter interface.
+- [x] Implement Cytoscape instance creation and disposal.
+- [x] Implement command interpretation with `cy.batch(...)` where appropriate.
+- [x] Add adapter-local timing or debug instrumentation around command batch interpretation so real execution cost can be measured at the engine boundary.
+- [x] Translate semantic theme data into Cytoscape stylesheet data.
+- [x] Decide how Cytoscape-native layouts are surfaced and how their results flow back out.
+- [x] Normalize Cytoscape events into public interaction events.
+- [x] Wrap engine exceptions into adapter-level error values.
 
 Exit criteria:
 
@@ -328,6 +341,10 @@ Exit criteria:
 
 Depends on: Step 4, Step 7, Step 9
 
+Status:
+
+- Completed
+
 Produces:
 
 - `Graph` component
@@ -335,12 +352,15 @@ Produces:
 
 Tasks:
 
-- [ ] Define the `Graph` component props around the agreed public model.
-- [ ] Mount and dispose the renderer safely in Solid lifecycle hooks.
-- [ ] Drive renderer updates from stable derived values rather than ad hoc imperative mutation.
-- [ ] Keep controlled-state semantics clear for `graph` and `view`.
-- [ ] Expose public callbacks such as node activation and selection change.
-- [ ] Decide what low-level renderer escape hatches are intentionally exposed.
+ - [x] Define the `Graph` component props around the agreed public model.
+ - [x] Mount and dispose the renderer safely in Solid lifecycle hooks.
+ - [x] Drive renderer updates from stable derived values rather than ad hoc imperative mutation.
+ - [x] Keep controlled-state semantics clear for `graph` and `view`.
+ - [x] Expose public callbacks such as node activation and selection change.
+ - [x] Decide what low-level renderer escape hatches are intentionally exposed.
+ - [x] Keep `Graph` as a Solid integration layer rather than the semantic center of the package.
+ - [x] Separate renderer session creation from DOM attachment at the renderer boundary.
+ - [x] Move browser-specific container ownership out of the top-level renderer contract.
 
 Exit criteria:
 
@@ -362,32 +382,40 @@ Tasks:
 - [ ] Add unit tests for layout output invariants.
 - [ ] Add unit tests for scene diffing and command generation.
 - [ ] Add integration tests for Solid mounting and teardown behavior.
+- [ ] Add tests for renderer session attach/detach behavior across the adapter and Solid boundary.
 - [ ] Add integration tests for Cytoscape adapter event translation where the environment allows it.
 - [ ] Add regression tests for deterministic ordering.
+- [ ] Compare minimal diff execution against full-scene replacement for the same target scene and capture the baseline in tests or documented benchmarks.
+- [ ] Where runtime timing is available, report adapter execution cost relative to frame budget in addition to raw timings.
 
 Exit criteria:
 
 - the core pipeline and the Cytoscape integration are covered by tests that match the architectural boundaries
 
-## Step 12: Documentation And Examples
+## Step 12: Packaging, Documentation And Examples
 
 Depends on: Step 10, Step 11
 
 Produces:
 
-- user-facing documentation aligned with the implemented v1
+- user-facing package surface, documentation, and examples aligned with the implemented v1
 
 Tasks:
 
 - [ ] Update `README.md` to reflect the toolkit direction instead of the original thin-wrapper framing.
+- [ ] Decide and implement package entrypoints that expose the pure core as a first-class public surface, such as `munchkeen/core`.
 - [ ] Add a minimal example that uses the canonical graph model.
+- [ ] Add a core-oriented example that exercises the pure pipeline without requiring the Solid `Graph` component.
 - [ ] Add a focused-neighborhood example.
+- [ ] Decide whether low-level renderer authoring remains intentionally opaque at the root surface or gains a more strongly typed companion surface.
+- [ ] Add type-level tests that lock the chosen low-level renderer authoring surface.
+- [ ] Document how root, core-oriented, and integration-oriented entrypoints differ.
 - [ ] Document the difference between pure core concepts and renderer-specific escape hatches.
 - [ ] Document the current limitations and what remains Cytoscape-specific.
 
 Exit criteria:
 
-- the repository communicates the implemented architecture clearly to users and contributors
+- the repository communicates and exposes the implemented architecture clearly to users and contributors
 
 ## Suggested Execution Order
 

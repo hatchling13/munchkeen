@@ -2,7 +2,12 @@ export { Graph } from "./solid/Graph";
 export { edgeId, nodeId } from "./core/model";
 
 export type { GraphProps } from "./solid/Graph";
-export type { GraphRenderer, GraphSelection } from "./core/api";
+export type {
+  GraphRenderer,
+  GraphRendererEvent,
+  GraphRendererCreateSessionOptions,
+  GraphSelection,
+} from "./core/api";
 export type { LayoutPosition, LayoutSpec } from "./core/layout";
 export type {
   EdgeDataFromSchema,

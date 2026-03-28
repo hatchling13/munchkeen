@@ -457,6 +457,27 @@ The main property groups are:
 
 This keeps graph reconciliation centralized and makes it easier to batch updates and reason about visible state.
 
+`Graph` is an important Solid integration surface, but it should not be treated as the semantic center of the package. The pure core remains a first-class concern, and Solid should be understood as one integration layer over that core rather than as the thing that defines it.
+
+In v1, `Graph` may omit the `renderer` prop and use the built-in Cytoscape adapter by default. Passing a renderer instance is the intentional low-level escape hatch for advanced integration, but it does not change the controlled-state ownership model.
+
+## Renderer Session Boundary
+
+To keep the runtime boundary aligned with the pure core, renderer lifecycle should be split into two concerns:
+
+- create a renderer session
+- optionally attach that session to a DOM container
+
+This matters because session creation is a renderer concern, while DOM ownership is an integration concern. A Solid component like `Graph` may attach a session to an `HTMLElement`, but the top-level renderer contract should not require DOM attachment in order to exist.
+
+That separation keeps the architecture friendlier to:
+
+- headless usage
+- non-DOM integrations
+- future public core-oriented entrypoints
+
+It also keeps the browser-specific assumptions concentrated in the Solid integration rather than leaking them upward into the main renderer abstraction.
+
 ## Cytoscape As The First Renderer
 
 In v1, Cytoscape.js is the first renderer adapter and the reference implementation for the rendering layer.
@@ -465,12 +486,15 @@ Architecturally, the Cytoscape adapter should behave like an effect interpreter.
 
 It is responsible for:
 
-- creating and destroying the Cytoscape instance
+- creating and destroying the Cytoscape-backed renderer session
+- attaching and detaching that session to a DOM container when an integration requests it
 - interpreting `RenderCommand[]` updates against Cytoscape as the default v1 boundary
 - generating Cytoscape stylesheet rules from semantic theme data
 - applying updates in batches
 - wiring Cytoscape events back into public callbacks
 - exposing Cytoscape-specific escape hatches when useful
+
+Meaningful performance measurement follows that same boundary. The most useful comparison is not an isolated score for a command batch, but the relative cost of applying a minimal diff batch versus replacing the full scene for the same target scene. Runtime timing therefore belongs in the renderer adapter, while any earlier command-cost scoring should be treated as an internal debugging aid rather than a canonical metric.
 
 This makes Cytoscape a strong practical engine without making it the semantic center of the library.
 

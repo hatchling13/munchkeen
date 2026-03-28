@@ -11,7 +11,7 @@ describe("environment", () => {
 });
 
 describe("package surface", () => {
-  it("exports the Graph component scaffold", () => {
+  it("exports the Graph component", () => {
     expect(typeof Graph).toBe("function");
   });
 });

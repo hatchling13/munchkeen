@@ -27,6 +27,7 @@ If a future change should override a decision here, this file should be updated 
 Frozen decisions:
 
 - `munchkeen` is a Solid-first interactive graph exploration toolkit.
+- The pure graph core is a first-class product concern, not only an internal implementation detail beneath the Solid integration.
 - v1 is optimized for exploration, not editing.
 - Cytoscape.js is the first renderer adapter and the first production renderer.
 - Cytoscape.js is not the semantic center of the library and is not the source of truth.
@@ -192,6 +193,28 @@ Frozen decisions:
 - Full scene replacement may exist as a fallback or debugging path, but it is not the default renderer update strategy.
 - Renderer adapters do not own semantic diffing logic unless this boundary is explicitly revised in a future decision.
 - The exact command algebra and diff heuristics remain implementation details until Step 8.
+
+## Performance Measurement Boundary
+
+Frozen decisions:
+
+- Performance scores are not meaningful in isolation; meaningful comparison should use the same `next` scene with minimal diff application measured against full scene replacement.
+- Actual runtime timing for `RenderCommand[]` interpretation belongs at the renderer adapter boundary because command execution cost depends on the concrete engine.
+- If heuristic command-cost estimates are added before adapter timing exists, they are internal debug aids only and do not replace runtime measurement.
+- Reporting performance relative to frame budget is desirable once runtime timing exists, but it does not block Step 8.
+
+## Integration Boundary Direction
+
+Frozen decisions:
+
+- `Graph` is an important Solid integration surface, but it is not the semantic center of the package.
+- DOM attachment is an integration concern rather than the top-level renderer contract.
+- Renderer lifecycle should separate runtime-neutral session creation from optional DOM attachment.
+- The top-level renderer contract should not require an `HTMLElement` in order to create a renderer session.
+- Solid and Cytoscape remain first integrations, but the pure core should stay usable without forcing browser-only assumptions into the renderer boundary.
+- In v1, `Graph` uses the built-in Cytoscape renderer when the `renderer` prop is omitted.
+- In v1, the `renderer` prop is the only intentional low-level renderer escape hatch on `Graph`.
+- `Graph` remains controlled for semantic state: the app owns `graph` and `view`, while renderer interaction events flow upward through callbacks and do not become the canonical source of truth inside the component.
 
 ## Step 1 Scope
 

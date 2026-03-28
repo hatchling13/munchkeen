@@ -13,6 +13,21 @@ export type GraphSelection = {
   readonly edgeIds: readonly EdgeId[];
 };
 
-export type GraphRenderer = {
+export type GraphRendererEvent =
+  | {
+      readonly type: "node/activate";
+      readonly nodeId: NodeId;
+    }
+  | {
+      readonly type: "selection/change";
+      readonly selection: GraphSelection;
+    };
+
+export type GraphRendererCreateSessionOptions = {
+  readonly onEvent?: (event: GraphRendererEvent) => void;
+} & Readonly<Record<string, unknown>>;
+
+export interface GraphRenderer {
   readonly kind: string;
-};
+  readonly createSession: (options?: GraphRendererCreateSessionOptions) => unknown;
+}
