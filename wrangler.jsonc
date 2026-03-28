@@ -1,8 +1,8 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
-  "name": "munchkeen-docs",
+  "name": "munchkeen",
   "main": "./workers/docs.js",
-  "compatibility_date": "2026-03-29",
+  "compatibility_date": "2026-03-28",
   "routes": [
     {
       "pattern": "munchkeen.hatchling.dev",
