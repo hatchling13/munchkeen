@@ -1,6 +1,7 @@
 # Build output
 /dist
 /dev/dist
+/.wrangler
 
 # Dependencies
 /node_modules

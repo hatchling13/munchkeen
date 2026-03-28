@@ -114,6 +114,54 @@ This is the companion surface for low-level renderer authoring. The root `GraphR
 - Core pipeline example: [examples/core-pipeline.ts](./examples/core-pipeline.ts)
 - Focused neighborhood example: [examples/focused-neighborhood.tsx](./examples/focused-neighborhood.tsx)
 
+## Documentation Playground
+
+The repository includes a docs playground built from the runnable examples in `examples/`.
+
+```bash
+pnpm docs:dev
+```
+
+That starts the Vite app in `dev/`, which now acts as the local documentation surface for the package.
+
+To produce the static docs bundle:
+
+```bash
+pnpm docs:build
+```
+
+The output is written to `dev/dist`.
+
+## Cloudflare Workers Deployment
+
+The repo includes a Cloudflare Workers static-assets setup for publishing the docs playground to:
+
+- `munchkeen.hatchling.dev`
+
+The relevant files are:
+
+- `wrangler.jsonc`
+- `workers/docs.js`
+
+The Worker stays intentionally thin:
+
+- static docs assets are served from `dev/dist`
+- SPA fallback is enabled for hashless client navigation
+- `/api/*` is reserved for future Worker-side functionality
+- `/api/health` is included as a minimal smoke-check endpoint
+
+Deploy the docs with:
+
+```bash
+pnpm docs:deploy
+```
+
+Notes:
+
+- This assumes `hatchling.dev` is already managed in Cloudflare.
+- The `munchkeen.hatchling.dev` custom domain must not already be occupied by another DNS record or Worker route.
+- The deploy script uses `pnpm dlx wrangler deploy`, so the first deploy may download `wrangler` if it is not already available locally.
+
 ## Pure Core vs Adapter Escape Hatches
 
 Pure core concepts live in `munchkeen/core`:

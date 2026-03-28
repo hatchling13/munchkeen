@@ -36,6 +36,8 @@ export default defineConfig({
     port: 3000,
   },
   build: {
+    emptyOutDir: true,
+    outDir: path.resolve(__dirname, "./dist"),
     target: "esnext",
   },
 });
