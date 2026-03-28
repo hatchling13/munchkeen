@@ -1,22 +1,13 @@
 export { createCytoscapeRenderer } from "./adapter";
 export { bindCytoscapeEvents, getCytoscapeSelection } from "./events";
-export {
-  createCytoscapeCommandInterpreter,
-  runCytoscapeNativeLayout,
-} from "./interpreter";
-export {
-  createCytoscapeStylesheet,
-  toCytoscapeStylesheetJson,
-} from "./theme";
+export { createCytoscapeCommandInterpreter, runCytoscapeNativeLayout } from "./interpreter";
+export { createCytoscapeStylesheet, toCytoscapeStylesheetJson } from "./theme";
 export {
   compareCytoscapeExecutionBaseline,
   DEFAULT_CYTOSCAPE_FRAME_BUDGET_MS,
   describeCytoscapeFrameBudget,
 } from "./performance";
-export {
-  toCytoscapeEdgeElement,
-  toCytoscapeNodeElement,
-} from "./elements";
+export { toCytoscapeEdgeElement, toCytoscapeNodeElement } from "./elements";
 
 export type {
   CytoscapeRenderer,
@@ -24,11 +15,7 @@ export type {
   CytoscapeRendererCreateSessionOptions,
   CytoscapeRendererSession,
 } from "./adapter";
-export type {
-  CytoscapeElement,
-  CytoscapeEdgeElement,
-  CytoscapeNodeElement,
-} from "./elements";
+export type { CytoscapeElement, CytoscapeEdgeElement, CytoscapeNodeElement } from "./elements";
 export type {
   CytoscapeEventName,
   CytoscapeRendererEvent,
@@ -43,8 +30,5 @@ export type {
   CytoscapeRendererError,
   CytoscapeRendererErrorCode,
 } from "./interpreter";
-export type {
-  CytoscapeExecutionBaseline,
-  CytoscapeFrameBudgetReport,
-} from "./performance";
+export type { CytoscapeExecutionBaseline, CytoscapeFrameBudgetReport } from "./performance";
 export type { CytoscapeStylesheetRule } from "./theme";

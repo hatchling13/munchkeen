@@ -1,8 +1,4 @@
-import {
-  Graph,
-  type GraphRenderer,
-  type GraphSelection,
-} from "munchkeen";
+import { Graph, type GraphRenderer, type GraphSelection } from "munchkeen";
 import {
   buildRenderScene,
   diffScene,
@@ -14,10 +10,7 @@ import {
   type GraphTransition,
   type GraphView,
 } from "munchkeen/core";
-import {
-  createCytoscapeRenderer,
-  type CytoscapeRendererSession,
-} from "munchkeen/cytoscape";
+import { createCytoscapeRenderer, type CytoscapeRendererSession } from "munchkeen/cytoscape";
 
 void Graph;
 

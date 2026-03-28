@@ -45,9 +45,7 @@ type GraphPipelineResult = {
 };
 
 type GraphRendererSession = {
-  readonly attach: (options: {
-    readonly container: HTMLElement;
-  }) => unknown;
+  readonly attach: (options: { readonly container: HTMLElement }) => unknown;
   readonly detach?: Dispose;
   readonly syncViewport?: () => void;
   readonly applyCommands: (commands: RenderCommandBatch) => unknown;

@@ -352,15 +352,15 @@ Produces:
 
 Tasks:
 
- - [x] Define the `Graph` component props around the agreed public model.
- - [x] Mount and dispose the renderer safely in Solid lifecycle hooks.
- - [x] Drive renderer updates from stable derived values rather than ad hoc imperative mutation.
- - [x] Keep controlled-state semantics clear for `graph` and `view`.
- - [x] Expose public callbacks such as node activation and selection change.
- - [x] Decide what low-level renderer escape hatches are intentionally exposed.
- - [x] Keep `Graph` as a Solid integration layer rather than the semantic center of the package.
- - [x] Separate renderer session creation from DOM attachment at the renderer boundary.
- - [x] Move browser-specific container ownership out of the top-level renderer contract.
+- [x] Define the `Graph` component props around the agreed public model.
+- [x] Mount and dispose the renderer safely in Solid lifecycle hooks.
+- [x] Drive renderer updates from stable derived values rather than ad hoc imperative mutation.
+- [x] Keep controlled-state semantics clear for `graph` and `view`.
+- [x] Expose public callbacks such as node activation and selection change.
+- [x] Decide what low-level renderer escape hatches are intentionally exposed.
+- [x] Keep `Graph` as a Solid integration layer rather than the semantic center of the package.
+- [x] Separate renderer session creation from DOM attachment at the renderer boundary.
+- [x] Move browser-specific container ownership out of the top-level renderer contract.
 
 Exit criteria:
 

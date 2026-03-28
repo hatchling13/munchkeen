@@ -1,16 +1,9 @@
 import cytoscape from "cytoscape";
 
-import type {
-  Dispose,
-  GraphRenderer,
-  GraphRendererCreateSessionOptions,
-} from "../../core/api";
+import type { Dispose, GraphRenderer, GraphRendererCreateSessionOptions } from "../../core/api";
 import { left, right, type Either } from "../../core/either";
 import type { RenderCommandBatch } from "../../core/commands";
-import {
-  bindCytoscapeEvents,
-  type CytoscapeRendererEvent,
-} from "./events";
+import { bindCytoscapeEvents, type CytoscapeRendererEvent } from "./events";
 import {
   createCytoscapeCommandInterpreter,
   runCytoscapeNativeLayout,
@@ -92,9 +85,7 @@ const createCytoscapeCore = (
       cytoscape({
         headless: options.headless ?? true,
         styleEnabled: options.styleEnabled ?? true,
-        style: toCytoscapeStylesheetJson(
-          createCytoscapeStylesheet(options.stylesheet),
-        ),
+        style: toCytoscapeStylesheetJson(createCytoscapeStylesheet(options.stylesheet)),
         elements: [],
       }),
     );

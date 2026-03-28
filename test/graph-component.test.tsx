@@ -45,9 +45,7 @@ const createStubRenderer = (options?: {
     emit: (event: StubRendererEvent) => void,
   ) => void;
 }) => {
-  let onEvent:
-    | ((event: StubRendererEvent) => void)
-    | undefined;
+  let onEvent: ((event: StubRendererEvent) => void) | undefined;
 
   const applyCommands = vi.fn((commands: readonly RenderCommand[]) => {
     options?.onApply?.(commands, (event) => {

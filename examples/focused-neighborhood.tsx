@@ -44,7 +44,10 @@ export const focusedNeighborhoodExampleTheme = {
       color: "#64748b",
     },
   },
-} satisfies GraphTheme<"person" | "artifact" | "document", "collaborates" | "designs" | "documents">;
+} satisfies GraphTheme<
+  "person" | "artifact" | "document",
+  "collaborates" | "designs" | "documents"
+>;
 
 export const focusedNeighborhoodExampleInitialView: GraphView = {
   focus: ada,

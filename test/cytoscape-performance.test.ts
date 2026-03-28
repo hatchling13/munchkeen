@@ -74,14 +74,11 @@ const createNow = (...values: readonly number[]): (() => number) => {
   };
 };
 
-const buildFullReplaceBatch = (
-  previous: RenderScene,
-  next: RenderScene,
-): RenderCommandBatch => [
-  ...previous.edges.map((edge) => ({ type: "edge/remove", edgeId: edge.id } as const)),
-  ...previous.nodes.map((node) => ({ type: "node/remove", nodeId: node.id } as const)),
-  ...next.nodes.map((node) => ({ type: "node/add", node } as const)),
-  ...next.edges.map((edge) => ({ type: "edge/add", edge } as const)),
+const buildFullReplaceBatch = (previous: RenderScene, next: RenderScene): RenderCommandBatch => [
+  ...previous.edges.map((edge) => ({ type: "edge/remove", edgeId: edge.id }) as const),
+  ...previous.nodes.map((node) => ({ type: "node/remove", nodeId: node.id }) as const),
+  ...next.nodes.map((node) => ({ type: "node/add", node }) as const),
+  ...next.edges.map((edge) => ({ type: "edge/add", edge }) as const),
 ];
 
 describe("Cytoscape performance helpers", () => {

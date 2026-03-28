@@ -5,14 +5,8 @@ import { left, right, type Either } from "../../core/either";
 import type { RenderCommand, RenderCommandBatch } from "../../core/commands";
 import type { LayoutPosition } from "../../core/layout";
 import { nodeId, type NodeId } from "../../core/model";
-import {
-  toCytoscapeEdgeElement,
-  toCytoscapeNodeElement,
-} from "./elements";
-import {
-  describeCytoscapeFrameBudget,
-  type CytoscapeFrameBudgetReport,
-} from "./performance";
+import { toCytoscapeEdgeElement, toCytoscapeNodeElement } from "./elements";
+import { describeCytoscapeFrameBudget, type CytoscapeFrameBudgetReport } from "./performance";
 
 export type CytoscapeRendererErrorCode =
   | "cytoscape_create_failed"
@@ -72,17 +66,21 @@ const buildMissingElementError = (
   elementId,
 });
 
-const captureCytoscapeNodePositions = (
-  cy: cytoscape.Core,
-): ReadonlyMap<NodeId, LayoutPosition> =>
+const captureCytoscapeNodePositions = (cy: cytoscape.Core): ReadonlyMap<NodeId, LayoutPosition> =>
   mapFromEntries(
-    cy.nodes().toArray().map((node) => [
-      nodeId(node.id()),
-      {
-        x: node.position("x"),
-        y: node.position("y"),
-      },
-    ] as const),
+    cy
+      .nodes()
+      .toArray()
+      .map(
+        (node) =>
+          [
+            nodeId(node.id()),
+            {
+              x: node.position("x"),
+              y: node.position("y"),
+            },
+          ] as const,
+      ),
   );
 
 const fitInitialViewport = (cy: cytoscape.Core): void => {
@@ -220,12 +218,10 @@ export const runCytoscapeNativeLayout = ({
   const startedAt = readNow();
 
   try {
-    cy
-      .layout({
-        name: layout.name,
-        ...(layout.options ?? {}),
-      } as cytoscape.LayoutOptions)
-      .run();
+    cy.layout({
+      name: layout.name,
+      ...(layout.options ?? {}),
+    } as cytoscape.LayoutOptions).run();
 
     const positions = captureCytoscapeNodePositions(cy);
     const durationMs = readNow() - startedAt;

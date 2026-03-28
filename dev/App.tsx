@@ -18,15 +18,9 @@ import {
   type LayoutSpec,
 } from "munchkeen";
 import type { RenderCommandBatch } from "munchkeen/core";
-import {
-  createCytoscapeRenderer,
-  type CytoscapeCommandApplyResult,
-} from "munchkeen/cytoscape";
+import { createCytoscapeRenderer, type CytoscapeCommandApplyResult } from "munchkeen/cytoscape";
 
-import {
-  corePipelineExampleInput,
-  runCorePipelineExample,
-} from "../examples/core-pipeline";
+import { corePipelineExampleInput, runCorePipelineExample } from "../examples/core-pipeline";
 import {
   focusedNeighborhoodExampleGraph,
   focusedNeighborhoodExampleInitialView,
@@ -106,9 +100,7 @@ const summarizeCommandBatch = (commands: RenderCommandBatch): string => {
     return "no-op";
   }
 
-  return [...counts.entries()]
-    .map(([type, count]) => `${type} x${count}`)
-    .join(", ");
+  return [...counts.entries()].map(([type, count]) => `${type} x${count}`).join(", ");
 };
 
 const toPerformanceSample = (
@@ -489,8 +481,8 @@ const App: Component = () => {
             <h2 class={styles.sectionTitle}>Choose the right layer</h2>
           </div>
           <p class={styles.sectionCopy}>
-            The docs page uses each published surface the way a consumer would: root for Solid,
-            core for semantic stages, and the Cytoscape companion for typed renderer hooks.
+            The docs page uses each published surface the way a consumer would: root for Solid, core
+            for semantic stages, and the Cytoscape companion for typed renderer hooks.
           </p>
         </div>
         <div class={styles.entrypointGrid}>
@@ -564,15 +556,22 @@ const App: Component = () => {
                     <div class={styles.metricCard}>
                       <span class={styles.label}>Input graph</span>
                       <strong>
-                        {corePipelineExampleInput.nodes.length} nodes / {corePipelineExampleInput.edges.length} edges
+                        {corePipelineExampleInput.nodes.length} nodes /{" "}
+                        {corePipelineExampleInput.edges.length} edges
                       </strong>
-                      <p>The example starts from raw graph data, not a renderer-specific structure.</p>
+                      <p>
+                        The example starts from raw graph data, not a renderer-specific structure.
+                      </p>
                     </div>
                     <div class={styles.metricCard}>
                       <span class={styles.label}>Output batch</span>
                       <Show
                         when={successfulCorePipeline()}
-                        fallback={<strong class={styles.warn}>{corePipelineError() ?? "unknown error"}</strong>}
+                        fallback={
+                          <strong class={styles.warn}>
+                            {corePipelineError() ?? "unknown error"}
+                          </strong>
+                        }
                       >
                         {(result) => <strong>{result().commands.length} commands</strong>}
                       </Show>
@@ -592,28 +591,38 @@ const App: Component = () => {
                           <div class={styles.metricCard}>
                             <span class={styles.label}>Projected</span>
                             <strong>{result().projected.nodes.length} nodes</strong>
-                            <p>{result().projected.edges.length} edges remain after view projection.</p>
+                            <p>
+                              {result().projected.edges.length} edges remain after view projection.
+                            </p>
                           </div>
                           <div class={styles.metricCard}>
                             <span class={styles.label}>Laid out</span>
                             <strong>{result().laidOut.positions.size} positions</strong>
-                            <p>Layout assigns deterministic coordinates before scene construction.</p>
+                            <p>
+                              Layout assigns deterministic coordinates before scene construction.
+                            </p>
                           </div>
                           <div class={styles.metricCard}>
                             <span class={styles.label}>Render scene</span>
                             <strong>{result().scene.nodes.length} nodes</strong>
-                            <p>{result().scene.edges.length} edges enter the renderer-agnostic scene.</p>
+                            <p>
+                              {result().scene.edges.length} edges enter the renderer-agnostic scene.
+                            </p>
                           </div>
                         </div>
 
                         <div class={styles.commandPanel}>
                           <div class={styles.historyHeader}>
                             <span class={styles.label}>Render commands</span>
-                            <span class={styles.historyHint}>Diff from nothing to the first scene</span>
+                            <span class={styles.historyHint}>
+                              Diff from nothing to the first scene
+                            </span>
                           </div>
                           <ul class={styles.commandList}>
                             <For each={result().commands}>
-                              {(command) => <li class={styles.commandItem}>{describeRenderCommand(command)}</li>}
+                              {(command) => (
+                                <li class={styles.commandItem}>{describeRenderCommand(command)}</li>
+                              )}
                             </For>
                           </ul>
                         </div>
@@ -634,12 +643,17 @@ const App: Component = () => {
                     <div class={styles.stateCard}>
                       <span class={styles.label}>Selected nodes</span>
                       <strong>{activeNodeSummary()}</strong>
-                      <p>Selection is echoed back from the renderer through the public callbacks.</p>
+                      <p>
+                        Selection is echoed back from the renderer through the public callbacks.
+                      </p>
                     </div>
                     <div class={styles.stateCard}>
                       <span class={styles.label}>Selected edges</span>
                       <strong>{activeEdgeSummary()}</strong>
-                      <p>The preview treats selection as app-controlled state, not renderer-owned state.</p>
+                      <p>
+                        The preview treats selection as app-controlled state, not renderer-owned
+                        state.
+                      </p>
                     </div>
                   </div>
 
@@ -647,7 +661,10 @@ const App: Component = () => {
                     <div class={styles.metricCard}>
                       <span class={styles.label}>Latest batch</span>
                       <strong>{latestSample()?.batch ?? "none"}</strong>
-                      <p>{latestSample()?.commandSummary ?? "Interact with the graph to produce a render batch."}</p>
+                      <p>
+                        {latestSample()?.commandSummary ??
+                          "Interact with the graph to produce a render batch."}
+                      </p>
                     </div>
                     <div class={styles.metricCard}>
                       <span class={styles.label}>Duration</span>
@@ -656,7 +673,11 @@ const App: Component = () => {
                     </div>
                     <div class={styles.metricCard}>
                       <span class={styles.label}>Frame budget</span>
-                      <strong class={latestSample()?.withinFrameBudget === false ? styles.warn : styles.ok}>
+                      <strong
+                        class={
+                          latestSample()?.withinFrameBudget === false ? styles.warn : styles.ok
+                        }
+                      >
                         {latestFrameBudgetLabel()}
                       </strong>
                       <p>Worst {worstFrameBudgetLabel()}</p>
@@ -664,7 +685,9 @@ const App: Component = () => {
                     <div class={styles.metricCard}>
                       <span class={styles.label}>Last error</span>
                       <strong>{lastError() ?? "none"}</strong>
-                      <p>The live preview measures command timing at the Cytoscape adapter boundary.</p>
+                      <p>
+                        The live preview measures command timing at the Cytoscape adapter boundary.
+                      </p>
                     </div>
                   </div>
 
@@ -679,7 +702,9 @@ const App: Component = () => {
                         fallback={
                           <li class={styles.historyItem}>
                             <strong>waiting</strong>
-                            <span>Interact with the graph to capture the first Cytoscape batch.</span>
+                            <span>
+                              Interact with the graph to capture the first Cytoscape batch.
+                            </span>
                             <span>0 cmds</span>
                             <span>n/a</span>
                             <span>n/a</span>
@@ -779,9 +804,7 @@ const App: Component = () => {
                 <span class={styles.historyHint}>Straight from the runnable source</span>
               </div>
               <ul class={styles.noteList}>
-                <For each={selectedExample().highlights}>
-                  {(highlight) => <li>{highlight}</li>}
-                </For>
+                <For each={selectedExample().highlights}>{(highlight) => <li>{highlight}</li>}</For>
               </ul>
             </div>
 

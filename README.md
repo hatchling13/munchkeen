@@ -49,9 +49,7 @@ const collaborates = edgeId("collaborates");
       { id: ada, label: "Ada Lovelace" },
       { id: charles, label: "Charles Babbage" },
     ],
-    edges: [
-      { id: collaborates, source: ada, target: charles, label: "collaborates" },
-    ],
+    edges: [{ id: collaborates, source: ada, target: charles, label: "collaborates" }],
   }}
   layout={{ kind: "breadthfirst", root: ada }}
   view={{

@@ -18,9 +18,7 @@ export const corePipelineExampleInput = {
     { id: ada, label: "Ada Lovelace" },
     { id: charles, label: "Charles Babbage" },
   ],
-  edges: [
-    { id: collaborates, source: ada, target: charles, label: "collaborates" },
-  ],
+  edges: [{ id: collaborates, source: ada, target: charles, label: "collaborates" }],
 };
 
 export const runCorePipelineExample = () => {

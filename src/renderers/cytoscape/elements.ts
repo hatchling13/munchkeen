@@ -36,16 +36,10 @@ export type CytoscapeEdgeElement = {
 export type CytoscapeElement = CytoscapeNodeElement | CytoscapeEdgeElement;
 
 const getNodeClasses = (node: RenderNode): readonly string[] =>
-  dedupe([
-    ...node.appearance.classNames,
-    ...(node.focused ? ["mk-focused"] : []),
-  ]);
+  dedupe([...node.appearance.classNames, ...(node.focused ? ["mk-focused"] : [])]);
 
 const getEdgeClasses = (edge: RenderEdge): readonly string[] =>
-  dedupe([
-    ...edge.appearance.classNames,
-    ...(edge.directed ? ["mk-directed"] : []),
-  ]);
+  dedupe([...edge.appearance.classNames, ...(edge.directed ? ["mk-directed"] : [])]);
 
 export const toCytoscapeNodeElement = (node: RenderNode): CytoscapeNodeElement => ({
   group: "nodes",

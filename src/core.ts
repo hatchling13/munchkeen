@@ -14,10 +14,7 @@ export {
   type RenderNodeAppearance,
   type RenderScene,
 } from "./core/scene";
-export {
-  diffScene,
-  type SceneDiff,
-} from "./core/diff";
+export { diffScene, type SceneDiff } from "./core/diff";
 export {
   flatMapEither,
   getOrElseEither,
@@ -32,13 +29,7 @@ export {
   type Left,
   type Right,
 } from "./core/either";
-export {
-  flatMapIO,
-  io,
-  mapIO,
-  unsafeRunIO,
-  type IO,
-} from "./core/io";
+export { flatMapIO, io, mapIO, unsafeRunIO, type IO } from "./core/io";
 export {
   fromReadonlyArray,
   mapReadonlyNonEmptyArray,
@@ -56,9 +47,7 @@ export {
   type Maybe,
   type Nothing,
 } from "./core/maybe";
-export {
-  type Thunk,
-} from "./core/thunk";
+export { type Thunk } from "./core/thunk";
 export {
   resolveEdgeTheme,
   resolveNodeTheme,
@@ -92,9 +81,7 @@ export {
   type ValidatedNode,
   validateGraph,
 } from "./core/validate";
-export {
-  type GraphSelection,
-} from "./core/api";
+export { type GraphSelection } from "./core/api";
 export {
   type EdgeDataFromSchema,
   type EdgeId,

@@ -1,19 +1,13 @@
 import type cytoscape from "cytoscape";
 
-import type {
-  GraphRendererEvent,
-  GraphSelection,
-  Subscription,
-} from "../../core/api";
+import type { GraphRendererEvent, GraphSelection, Subscription } from "../../core/api";
 import { edgeId, nodeId } from "../../core/model";
 
 export type CytoscapeEventName = "tap" | "select" | "unselect";
 
 export type CytoscapeRendererEvent = GraphRendererEvent;
 
-export type CytoscapeRendererEventHandler = (
-  event: CytoscapeRendererEvent,
-) => void;
+export type CytoscapeRendererEventHandler = (event: CytoscapeRendererEvent) => void;
 
 export const getCytoscapeSelection = (cy: cytoscape.Core): GraphSelection => ({
   nodeIds: cy

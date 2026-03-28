@@ -58,9 +58,7 @@ const diffNodeAddsAndUpdates = (
       return { type: "node/add", node };
     }
 
-    return areRenderNodesEqual(previousNode, node)
-      ? []
-      : { type: "node/update", node };
+    return areRenderNodesEqual(previousNode, node) ? [] : { type: "node/update", node };
   });
 
 const diffEdgeAddsAndUpdates = (
@@ -74,9 +72,7 @@ const diffEdgeAddsAndUpdates = (
       return { type: "edge/add", edge };
     }
 
-    return areRenderEdgesEqual(previousEdge, edge)
-      ? []
-      : { type: "edge/update", edge };
+    return areRenderEdgesEqual(previousEdge, edge) ? [] : { type: "edge/update", edge };
   });
 
 const diffEdgeRemovals = (
@@ -101,10 +97,7 @@ export type SceneDiff = RenderCommandBatch;
 // commands when a node or edge's rendered semantics change. Scene-level
 // selection ordering changes with identical per-element selection state do not
 // produce commands.
-export const diffScene = (
-  previous: RenderScene | undefined,
-  next: RenderScene,
-): SceneDiff => {
+export const diffScene = (previous: RenderScene | undefined, next: RenderScene): SceneDiff => {
   if (previous === undefined) {
     return [
       ...next.nodes.map<RenderCommand>((node) => ({ type: "node/add", node })),

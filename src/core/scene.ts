@@ -3,11 +3,7 @@ import type { GraphSelection } from "./api";
 import type { LaidOutGraph, LayoutPosition } from "./layout";
 import { isJust, type Maybe } from "./maybe";
 import type { EdgeId, GraphView, NodeId } from "./model";
-import {
-  resolveEdgeTheme,
-  resolveNodeTheme,
-  type GraphTheme,
-} from "./theme";
+import { resolveEdgeTheme, resolveNodeTheme, type GraphTheme } from "./theme";
 
 export type RenderNodeAppearance = {
   readonly classNames: readonly string[];
@@ -58,12 +54,7 @@ export type BuildRenderSceneInput<
 
 const maybeValue = <A>(value: Maybe<A>): A | undefined => (isJust(value) ? value.value : undefined);
 
-const getNodePosition = <
-  NodeData,
-  EdgeData,
-  NodeKind extends string,
-  EdgeKind extends string,
->(
+const getNodePosition = <NodeData, EdgeData, NodeKind extends string, EdgeKind extends string>(
   graph: LaidOutGraph<NodeData, EdgeData, NodeKind, EdgeKind>,
   nodeId: NodeId,
 ): LayoutPosition => {
@@ -76,12 +67,7 @@ const getNodePosition = <
   return position;
 };
 
-const buildGraphSelection = <
-  NodeData,
-  EdgeData,
-  NodeKind extends string,
-  EdgeKind extends string,
->(
+const buildGraphSelection = <NodeData, EdgeData, NodeKind extends string, EdgeKind extends string>(
   graph: LaidOutGraph<NodeData, EdgeData, NodeKind, EdgeKind>,
   view: GraphView | undefined,
 ): GraphSelection => {

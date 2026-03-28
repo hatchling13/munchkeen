@@ -18,10 +18,7 @@ type ThemeSection<Appearance, Kind extends string> = {
   readonly byKind?: Readonly<Partial<Record<Kind, Appearance>>>;
 };
 
-export type GraphTheme<
-  NodeKind extends string = string,
-  EdgeKind extends string = string,
-> = {
+export type GraphTheme<NodeKind extends string = string, EdgeKind extends string = string> = {
   readonly nodes?: ThemeSection<NodeAppearance, NodeKind>;
   readonly edges?: ThemeSection<EdgeAppearance, EdgeKind>;
 };
@@ -63,7 +60,10 @@ const resolveEdgeKindAppearance = <NodeKind extends string, EdgeKind extends str
   return theme?.edges?.byKind?.[kind.value];
 };
 
-export const resolveNodeTheme = <NodeKind extends string = string, EdgeKind extends string = string>(
+export const resolveNodeTheme = <
+  NodeKind extends string = string,
+  EdgeKind extends string = string,
+>(
   theme: GraphTheme<NodeKind, EdgeKind> | undefined,
   kind: Maybe<NodeKind>,
 ): ResolvedNodeTheme => {
@@ -80,7 +80,10 @@ export const resolveNodeTheme = <NodeKind extends string = string, EdgeKind exte
   };
 };
 
-export const resolveEdgeTheme = <NodeKind extends string = string, EdgeKind extends string = string>(
+export const resolveEdgeTheme = <
+  NodeKind extends string = string,
+  EdgeKind extends string = string,
+>(
   theme: GraphTheme<NodeKind, EdgeKind> | undefined,
   kind: Maybe<EdgeKind>,
 ): ResolvedEdgeTheme => {
