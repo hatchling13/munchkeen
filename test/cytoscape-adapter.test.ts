@@ -1,11 +1,13 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import { isLeft, isRight } from "../src/core/either";
 import { edgeId, nodeId } from "../src/core/model";
 import type { RenderEdge, RenderNode } from "../src/core/scene";
 import {
+  DEFAULT_CYTOSCAPE_FRAME_BUDGET_MS,
   createCytoscapeRenderer,
   createCytoscapeStylesheet,
+  describeCytoscapeFrameBudget,
 } from "../src/renderers/cytoscape";
 
 const makeNode = (
@@ -120,6 +122,7 @@ describe("Cytoscape renderer", () => {
         expect(addResult.right).toEqual({
           durationMs: 5,
           commandCount: 3,
+          frameBudget: describeCytoscapeFrameBudget(5),
         });
       }
 
@@ -160,6 +163,7 @@ describe("Cytoscape renderer", () => {
         expect(updateResult.right).toEqual({
           durationMs: 8,
           commandCount: 3,
+          frameBudget: describeCytoscapeFrameBudget(8),
         });
       }
 
@@ -199,6 +203,62 @@ describe("Cytoscape renderer", () => {
 
       expect(session.cy.container()).toBe(null);
 
+      session.dispose();
+    }
+  });
+
+  it("syncs viewport geometry through the Cytoscape session", () => {
+    const renderer = createCytoscapeRenderer();
+    const mounted = renderer.createSession({
+      headless: true,
+    });
+
+    expect(isRight(mounted)).toBe(true);
+
+    if (isRight(mounted)) {
+      const session = mounted.right;
+      const resizeSpy = vi.spyOn(session.cy, "resize");
+
+      session.syncViewport();
+
+      expect(resizeSpy).toHaveBeenCalledTimes(1);
+
+      resizeSpy.mockRestore();
+      session.dispose();
+    }
+  });
+
+  it("fits the viewport once when the first non-empty scene is applied", () => {
+    const alpha = nodeId("alpha");
+    const beta = nodeId("beta");
+    const renderer = createCytoscapeRenderer();
+    const mounted = renderer.createSession({
+      headless: true,
+    });
+
+    expect(isRight(mounted)).toBe(true);
+
+    if (isRight(mounted)) {
+      const session = mounted.right;
+      const fitSpy = vi.spyOn(session.cy, "fit");
+
+      session.applyCommands([
+        { type: "node/add", node: makeNode(alpha) },
+        { type: "node/add", node: makeNode(beta, { position: { x: 120, y: 40 } }) },
+      ]);
+
+      expect(fitSpy).toHaveBeenCalledTimes(1);
+
+      session.applyCommands([
+        {
+          type: "node/update",
+          node: makeNode(alpha, { position: { x: 20, y: 30 } }),
+        },
+      ]);
+
+      expect(fitSpy).toHaveBeenCalledTimes(1);
+
+      fitSpy.mockRestore();
       session.dispose();
     }
   });
@@ -293,6 +353,12 @@ describe("Cytoscape renderer", () => {
 
       if (isRight(layoutResult)) {
         expect(layoutResult.right.durationMs).toBe(4);
+        expect(layoutResult.right.frameBudget).toEqual({
+          frameBudgetMs: DEFAULT_CYTOSCAPE_FRAME_BUDGET_MS,
+          frameBudgetRatio: 4 / DEFAULT_CYTOSCAPE_FRAME_BUDGET_MS,
+          frameBudgetPercent: (4 / DEFAULT_CYTOSCAPE_FRAME_BUDGET_MS) * 100,
+          withinFrameBudget: true,
+        });
         expect(layoutResult.right.positions.get(alpha)).toEqual({ x: 12, y: 24 });
         expect(layoutResult.right.positions.get(beta)).toEqual({ x: 36, y: 48 });
       }

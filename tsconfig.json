@@ -16,7 +16,12 @@
     "jsx": "preserve",
     "jsxImportSource": "solid-js",
     "types": [],
-    "baseUrl": "."
+    "baseUrl": ".",
+    "paths": {
+      "munchkeen": ["./src/index.tsx"],
+      "munchkeen/core": ["./src/core.ts"],
+      "munchkeen/cytoscape": ["./src/cytoscape.ts"]
+    }
   },
   "exclude": ["node_modules", "dist", "./dev"]
 }

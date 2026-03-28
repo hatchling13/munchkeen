@@ -46,6 +46,7 @@ export type CytoscapeRendererSession = {
     options: CytoscapeRendererAttachOptions,
   ) => Either<CytoscapeRendererError, void>;
   readonly detach: () => void;
+  readonly syncViewport: () => void;
   readonly applyCommands: (
     commands: RenderCommandBatch,
   ) => Either<CytoscapeRendererError, CytoscapeCommandApplyResult>;
@@ -164,6 +165,9 @@ export const createCytoscapeRenderer = (): CytoscapeRenderer => ({
         }),
       detach: () => {
         cy.unmount();
+      },
+      syncViewport: () => {
+        cy.resize();
       },
       applyCommands: (commands) => interpreter.apply(commands),
       updateStylesheet: (stylesheet) =>

@@ -49,6 +49,7 @@ type GraphRendererSession = {
     readonly container: HTMLElement;
   }) => unknown;
   readonly detach?: Dispose;
+  readonly syncViewport?: () => void;
   readonly applyCommands: (commands: RenderCommandBatch) => unknown;
   readonly dispose: Dispose;
 };
@@ -98,6 +99,25 @@ const resolveGraphRendererSession = (value: unknown): GraphRendererSession | und
   }
 
   return undefined;
+};
+
+const scheduleViewportSync = (session: GraphRendererSession): void => {
+  const run = () => {
+    try {
+      session.syncViewport?.();
+    } catch {
+      // Viewport sync is best-effort bookkeeping at the integration boundary.
+    }
+  };
+
+  if (typeof requestAnimationFrame === "function") {
+    requestAnimationFrame(() => {
+      run();
+    });
+    return;
+  }
+
+  run();
 };
 
 export const Graph = <
@@ -238,6 +258,7 @@ export const Graph = <
 
       setSession(createdSession);
       setRuntimeStatus("idle");
+      scheduleViewportSync(createdSession);
 
       onCleanup(() => {
         setSession(undefined);
@@ -262,6 +283,7 @@ export const Graph = <
     if (commands.length === 0) {
       appliedScene = nextScene;
       setRuntimeStatus("ready");
+      scheduleViewportSync(mountedSession);
       return;
     }
 
@@ -277,6 +299,7 @@ export const Graph = <
 
       appliedScene = nextScene;
       setRuntimeStatus("ready");
+      scheduleViewportSync(mountedSession);
     } catch {
       setRuntimeStatus("apply-error");
     } finally {

@@ -9,6 +9,10 @@ import {
   toCytoscapeEdgeElement,
   toCytoscapeNodeElement,
 } from "./elements";
+import {
+  describeCytoscapeFrameBudget,
+  type CytoscapeFrameBudgetReport,
+} from "./performance";
 
 export type CytoscapeRendererErrorCode =
   | "cytoscape_create_failed"
@@ -31,6 +35,7 @@ export type CytoscapeNow = () => number;
 export type CytoscapeCommandApplyResult = {
   readonly durationMs: number;
   readonly commandCount: number;
+  readonly frameBudget: CytoscapeFrameBudgetReport;
 };
 
 export type CytoscapeNativeLayoutRequest = {
@@ -42,6 +47,7 @@ export type CytoscapeNativeLayoutRequest = {
 export type CytoscapeNativeLayoutResult = {
   readonly durationMs: number;
   readonly positions: ReadonlyMap<NodeId, LayoutPosition>;
+  readonly frameBudget: CytoscapeFrameBudgetReport;
 };
 
 export type CytoscapeCommandInterpreter = {
@@ -51,6 +57,7 @@ export type CytoscapeCommandInterpreter = {
   ) => Either<CytoscapeRendererError, CytoscapeCommandApplyResult>;
 };
 
+const INITIAL_VIEWPORT_PADDING = 48;
 const defaultNow = (): number => globalThis.performance?.now() ?? Date.now();
 
 const getNow = (now: CytoscapeNow | undefined): CytoscapeNow => now ?? defaultNow;
@@ -77,6 +84,19 @@ const captureCytoscapeNodePositions = (
       },
     ] as const),
   );
+
+const fitInitialViewport = (cy: cytoscape.Core): void => {
+  if (cy.elements().length === 0) {
+    return;
+  }
+
+  try {
+    cy.fit(cy.elements(), INITIAL_VIEWPORT_PADDING);
+  } catch {
+    // Initial viewport fitting is a renderer-specific convenience and should
+    // never turn an otherwise valid command batch into a hard failure.
+  }
+};
 
 const interpretCommand = (
   cy: cytoscape.Core,
@@ -148,6 +168,7 @@ export const createCytoscapeCommandInterpreter = ({
   apply: (commands) => {
     const readNow = getNow(now);
     const startedAt = readNow();
+    const hadElements = cy.elements().length > 0;
     let failure: CytoscapeRendererError | undefined;
 
     try {
@@ -172,9 +193,16 @@ export const createCytoscapeCommandInterpreter = ({
       return left(failure);
     }
 
+    if (!hadElements && cy.elements().length > 0) {
+      fitInitialViewport(cy);
+    }
+
+    const durationMs = readNow() - startedAt;
+
     return right({
-      durationMs: readNow() - startedAt,
+      durationMs,
       commandCount: commands.length,
+      frameBudget: describeCytoscapeFrameBudget(durationMs),
     });
   },
 });
@@ -200,12 +228,14 @@ export const runCytoscapeNativeLayout = ({
       .run();
 
     const positions = captureCytoscapeNodePositions(cy);
+    const durationMs = readNow() - startedAt;
 
     layout.onPositions?.(positions);
 
     return right({
-      durationMs: readNow() - startedAt,
+      durationMs,
       positions,
+      frameBudget: describeCytoscapeFrameBudget(durationMs),
     });
   } catch (cause) {
     return left({

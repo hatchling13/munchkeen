@@ -461,6 +461,16 @@ This keeps graph reconciliation centralized and makes it easier to batch updates
 
 In v1, `Graph` may omit the `renderer` prop and use the built-in Cytoscape adapter by default. Passing a renderer instance is the intentional low-level escape hatch for advanced integration, but it does not change the controlled-state ownership model.
 
+## Package Entry Points
+
+The package now has three distinct public entrypoints with different goals:
+
+- `munchkeen`: the default Solid integration surface centered on `Graph`
+- `munchkeen/core`: the pure pipeline surface for advanced consumers who want direct access to staged graph transforms and command generation
+- `munchkeen/cytoscape`: the typed Cytoscape companion surface for adapter-specific sessions and renderer escape hatches
+
+The important boundary rule is that the root entrypoint stays friendlier and more opaque at low-level renderer boundaries, while stronger renderer typing is intentionally concentrated in integration-specific companion entrypoints.
+
 ## Renderer Session Boundary
 
 To keep the runtime boundary aligned with the pure core, renderer lifecycle should be split into two concerns:

@@ -12,9 +12,24 @@ export default defineConfig({
     "process.env.NODE_ENV": developmentNodeEnv,
   },
   resolve: {
-    alias: {
-      src: path.resolve(__dirname, "../src"),
-    },
+    alias: [
+      {
+        find: "munchkeen/cytoscape",
+        replacement: path.resolve(__dirname, "../src/cytoscape.ts"),
+      },
+      {
+        find: "munchkeen/core",
+        replacement: path.resolve(__dirname, "../src/core.ts"),
+      },
+      {
+        find: "munchkeen",
+        replacement: path.resolve(__dirname, "../src/index.tsx"),
+      },
+      {
+        find: "src",
+        replacement: path.resolve(__dirname, "../src"),
+      },
+    ],
   },
   plugins: [solidPlugin()],
   server: {

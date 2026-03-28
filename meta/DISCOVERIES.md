@@ -170,3 +170,56 @@ What would promote this into `DECISIONS.md`:
 
 - A direct decision on whether `munchkeen` is primarily a browser-first Solid
   graph library or a runtime-neutral graph core with Solid as one integration.
+
+## Viewport Geometry Sync Discovery
+
+Date:
+
+- 2026-03-29
+
+Status:
+
+- Open
+
+Summary:
+
+- Graph-external DOM layout changes can make Cytoscape viewport geometry stale
+  even when the graph's semantic state has not changed.
+
+What was observed:
+
+- After the development performance panel grew taller, graph hit-testing began
+  to feel vertically offset from the cursor.
+- The immediate fix was to trigger viewport synchronization after renderer
+  attach and after render-command application.
+
+Why this matters:
+
+- Renderer correctness at the browser boundary depends not only on semantic
+  graph updates, but also on DOM layout changes around the viewport.
+- Some layout shifts are caused by the graph itself, while others come from
+  unrelated UI concerns such as sidebars, banners, font loading, responsive
+  reflow, or container animation.
+
+Current assessment:
+
+- Attach-time and apply-time viewport sync covers the observed regression and
+  is an appropriate short-term integration fix.
+- It is not yet clear whether this should be generalized into observer-based
+  viewport sync for graph-external layout changes.
+
+Questions to answer later:
+
+- Should `Graph` or a browser-specific renderer integration observe viewport
+  size and position changes continuously?
+- Is `ResizeObserver` enough, or would some layout-shift cases require broader
+  observation at the integration boundary?
+- Should viewport sync remain best-effort integration bookkeeping, or become an
+  explicit renderer-session contract guarantee?
+
+Promotion rule:
+
+- Move this into `DECISIONS.md` only if observer-based viewport synchronization
+  or an equivalent browser-boundary policy is intentionally chosen.
+- Represent it in `TODO.md` once the team decides that broader viewport
+  observation should be implemented rather than merely noted as a risk.

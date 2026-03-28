@@ -1,5 +1,6 @@
 # Build output
 /dist
+/dev/dist
 
 # Dependencies
 /node_modules

@@ -9,6 +9,11 @@ export {
   toCytoscapeStylesheetJson,
 } from "./theme";
 export {
+  compareCytoscapeExecutionBaseline,
+  DEFAULT_CYTOSCAPE_FRAME_BUDGET_MS,
+  describeCytoscapeFrameBudget,
+} from "./performance";
+export {
   toCytoscapeEdgeElement,
   toCytoscapeNodeElement,
 } from "./elements";
@@ -38,4 +43,8 @@ export type {
   CytoscapeRendererError,
   CytoscapeRendererErrorCode,
 } from "./interpreter";
+export type {
+  CytoscapeExecutionBaseline,
+  CytoscapeFrameBudgetReport,
+} from "./performance";
 export type { CytoscapeStylesheetRule } from "./theme";

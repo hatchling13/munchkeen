@@ -374,19 +374,23 @@ Produces:
 
 - confidence in core invariants and renderer integration
 
+Status:
+
+- Completed
+
 Tasks:
 
-- [ ] Add unit tests for validation and normalization.
-- [ ] Add unit tests for view transitions.
-- [ ] Add unit tests for projection.
-- [ ] Add unit tests for layout output invariants.
-- [ ] Add unit tests for scene diffing and command generation.
-- [ ] Add integration tests for Solid mounting and teardown behavior.
-- [ ] Add tests for renderer session attach/detach behavior across the adapter and Solid boundary.
-- [ ] Add integration tests for Cytoscape adapter event translation where the environment allows it.
-- [ ] Add regression tests for deterministic ordering.
-- [ ] Compare minimal diff execution against full-scene replacement for the same target scene and capture the baseline in tests or documented benchmarks.
-- [ ] Where runtime timing is available, report adapter execution cost relative to frame budget in addition to raw timings.
+- [x] Add unit tests for validation and normalization.
+- [x] Add unit tests for view transitions.
+- [x] Add unit tests for projection.
+- [x] Add unit tests for layout output invariants.
+- [x] Add unit tests for scene diffing and command generation.
+- [x] Add integration tests for Solid mounting and teardown behavior.
+- [x] Add tests for renderer session attach/detach behavior across the adapter and Solid boundary.
+- [x] Add integration tests for Cytoscape adapter event translation where the environment allows it.
+- [x] Add regression tests for deterministic ordering.
+- [x] Compare minimal diff execution against full-scene replacement for the same target scene and capture the baseline in tests or documented benchmarks.
+- [x] Where runtime timing is available, report adapter execution cost relative to frame budget in addition to raw timings.
 
 Exit criteria:
 
@@ -400,18 +404,22 @@ Produces:
 
 - user-facing package surface, documentation, and examples aligned with the implemented v1
 
+Status:
+
+- Completed
+
 Tasks:
 
-- [ ] Update `README.md` to reflect the toolkit direction instead of the original thin-wrapper framing.
-- [ ] Decide and implement package entrypoints that expose the pure core as a first-class public surface, such as `munchkeen/core`.
-- [ ] Add a minimal example that uses the canonical graph model.
-- [ ] Add a core-oriented example that exercises the pure pipeline without requiring the Solid `Graph` component.
-- [ ] Add a focused-neighborhood example.
-- [ ] Decide whether low-level renderer authoring remains intentionally opaque at the root surface or gains a more strongly typed companion surface.
-- [ ] Add type-level tests that lock the chosen low-level renderer authoring surface.
-- [ ] Document how root, core-oriented, and integration-oriented entrypoints differ.
-- [ ] Document the difference between pure core concepts and renderer-specific escape hatches.
-- [ ] Document the current limitations and what remains Cytoscape-specific.
+- [x] Update `README.md` to reflect the toolkit direction instead of the original thin-wrapper framing.
+- [x] Decide and implement package entrypoints that expose the pure core as a first-class public surface, such as `munchkeen/core`.
+- [x] Add a minimal example that uses the canonical graph model.
+- [x] Add a core-oriented example that exercises the pure pipeline without requiring the Solid `Graph` component.
+- [x] Add a focused-neighborhood example.
+- [x] Decide whether low-level renderer authoring remains intentionally opaque at the root surface or gains a more strongly typed companion surface.
+- [x] Add type-level tests that lock the chosen low-level renderer authoring surface.
+- [x] Document how root, core-oriented, and integration-oriented entrypoints differ.
+- [x] Document the difference between pure core concepts and renderer-specific escape hatches.
+- [x] Document the current limitations and what remains Cytoscape-specific.
 
 Exit criteria:
 

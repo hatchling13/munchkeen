@@ -216,6 +216,16 @@ Frozen decisions:
 - In v1, the `renderer` prop is the only intentional low-level renderer escape hatch on `Graph`.
 - `Graph` remains controlled for semantic state: the app owns `graph` and `view`, while renderer interaction events flow upward through callbacks and do not become the canonical source of truth inside the component.
 
+## Package Entry Points
+
+Frozen decisions:
+
+- The root `munchkeen` entrypoint remains the default Solid integration surface.
+- `munchkeen/core` is the first-class pure pipeline surface for advanced consumers who want direct access to validation, projection, layout, scene construction, diffing, and state transitions.
+- `munchkeen/cytoscape` is the typed Cytoscape companion surface for adapter-specific sessions, performance helpers, and other renderer escape hatches.
+- The root `GraphRenderer` type remains intentionally opaque at the low-level session boundary.
+- Stronger low-level renderer typing lives in integration-specific companion entrypoints rather than on the default root surface.
+
 ## Step 1 Scope
 
 The next implementation step should assume the following scope for internal FP primitives:

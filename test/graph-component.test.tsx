@@ -27,6 +27,18 @@ const flush = async (): Promise<void> => {
   await Promise.resolve();
 };
 
+const flushFrame = async (): Promise<void> => {
+  if (typeof requestAnimationFrame !== "function") {
+    return;
+  }
+
+  await new Promise<void>((resolve) => {
+    requestAnimationFrame(() => {
+      resolve();
+    });
+  });
+};
+
 const createStubRenderer = (options?: {
   readonly onApply?: (
     commands: readonly RenderCommand[],
@@ -54,6 +66,7 @@ const createStubRenderer = (options?: {
     right: undefined,
   }));
   const detach = vi.fn();
+  const syncViewport = vi.fn();
   const dispose = vi.fn();
   const createSession = vi.fn((sessionOptions?: Parameters<GraphRenderer["createSession"]>[0]) => {
     onEvent = sessionOptions?.onEvent;
@@ -63,6 +76,7 @@ const createStubRenderer = (options?: {
       right: {
         attach,
         detach,
+        syncViewport,
         applyCommands,
         dispose,
       },
@@ -77,6 +91,7 @@ const createStubRenderer = (options?: {
     applyCommands,
     attach,
     detach,
+    syncViewport,
     dispose,
     createSession,
     emit: (event: StubRendererEvent) => {
@@ -138,9 +153,11 @@ describeClientOnly("Graph component", () => {
     );
 
     await flush();
+    await flushFrame();
 
     expect(renderer.createSession).toHaveBeenCalledTimes(1);
     expect(renderer.attach).toHaveBeenCalledTimes(1);
+    expect(renderer.syncViewport).toHaveBeenCalledTimes(2);
     expect(renderer.attach.mock.calls[0]?.[0]?.container).toBeInstanceOf(HTMLDivElement);
     expect(renderer.applyCommands).toHaveBeenCalledTimes(1);
     expect(renderer.applyCommands.mock.calls[0]?.[0]).toEqual([
@@ -176,8 +193,10 @@ describeClientOnly("Graph component", () => {
     });
 
     await flush();
+    await flushFrame();
 
     expect(renderer.applyCommands).toHaveBeenCalledTimes(2);
+    expect(renderer.syncViewport).toHaveBeenCalledTimes(3);
     expect(renderer.applyCommands.mock.calls[1]?.[0]).toEqual([
       {
         type: "node/update",
@@ -262,6 +281,7 @@ describeClientOnly("Graph component", () => {
     );
 
     await flush();
+    await flushFrame();
 
     expect(onSelectionChange).not.toHaveBeenCalled();
 
@@ -327,6 +347,7 @@ describeClientOnly("Graph component", () => {
     );
 
     await flush();
+    await flushFrame();
 
     expect(renderer.applyCommands).toHaveBeenCalledTimes(1);
 
@@ -339,8 +360,10 @@ describeClientOnly("Graph component", () => {
     });
 
     await flush();
+    await flushFrame();
 
     expect(renderer.applyCommands).toHaveBeenCalledTimes(2);
+    expect(renderer.syncViewport).toHaveBeenCalledTimes(3);
     expect(renderer.applyCommands.mock.calls[1]?.[0]).toEqual([
       {
         type: "edge/remove",
