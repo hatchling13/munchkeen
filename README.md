@@ -1,6 +1,7 @@
 # munchkeen
 
 [![pnpm](https://img.shields.io/badge/maintained%20with-pnpm-cc00ff.svg?style=for-the-badge&logo=pnpm)](https://pnpm.io/)
+[![codecov](https://codecov.io/gh/hatchling13/munchkeen/graph/badge.svg)](https://codecov.io/gh/hatchling13/munchkeen)
 
 `munchkeen` is a Solid-first interactive graph exploration toolkit.
 
@@ -112,6 +113,22 @@ This is the companion surface for low-level renderer authoring. The root `GraphR
 - Core pipeline example: [examples/core-pipeline.ts](./examples/core-pipeline.ts)
 - Focused neighborhood example: [examples/focused-neighborhood.tsx](./examples/focused-neighborhood.tsx)
 
+## Tests
+
+Run the client and SSR test suites:
+
+```bash
+pnpm test
+```
+
+Generate a local coverage report:
+
+```bash
+pnpm test:coverage
+```
+
+Vitest writes coverage artifacts to `coverage/`.
+
 ## Documentation Playground
 
 The repository includes a docs playground built from the runnable examples in `examples/`.
@@ -130,57 +147,7 @@ pnpm docs:build
 
 The output is written to `dev/dist`.
 
-## Cloudflare Workers Builds
-
-The repo includes a Cloudflare Workers static-assets setup for publishing the docs playground to:
-
-- `munchkeen.hatchling.dev`
-
-The relevant files are:
-
-- `wrangler.jsonc`
-- `workers/docs.js`
-
-The Worker stays intentionally thin:
-
-- static docs assets are served from `dev/dist`
-- SPA fallback is enabled for hashless client navigation
-- `/api/*` is reserved for future Worker-side functionality
-- `/api/health` is included as a minimal smoke-check endpoint
-
-The intended production path is **Workers Builds**, not local deploys.
-
-Recommended Cloudflare project settings:
-
-- Worker name: `munchkeen-docs`
-- Production branch: your default branch, usually `main`
-- Build command: `pnpm docs:build`
-- Deploy command: leave the default `wrangler deploy` command unless you later decide to pin Wrangler separately
-
-Recommended build variables:
-
-- `NODE_VERSION=22.12.0`
-- `PNPM_VERSION=10.32.1`
-
-The repository includes `.node-version` and `.nvmrc` so the target Node version stays visible in local development and in Cloudflare's build image.
-
-For local verification before pushing:
-
-```bash
-pnpm docs:build
-```
-
-If you need a manual fallback deploy from your machine:
-
-```bash
-pnpm docs:deploy:manual
-```
-
-Notes:
-
-- This assumes `hatchling.dev` is already managed in Cloudflare.
-- The `munchkeen.hatchling.dev` custom domain must not already be occupied by another DNS record or Worker route.
-- The manual fallback script uses `pnpm dlx wrangler deploy`, so the first local deploy may download `wrangler` if it is not already available locally.
+`dev/dist` can be published to any static hosting provider.
 
 ## Pure Core vs Adapter Escape Hatches
 

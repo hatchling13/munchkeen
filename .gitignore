@@ -1,6 +1,7 @@
 # Build output
 /dist
 /dev/dist
+/coverage
 /.wrangler
 
 # Dependencies

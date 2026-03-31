@@ -50,8 +50,9 @@
     "docs:build": "vite build dev --config dev/vite.config.ts",
     "docs:deploy:manual": "pnpm docs:build && pnpm dlx wrangler deploy",
     "build": "tsdown",
-    "test": "concurrently pnpm:test:*",
+    "test": "concurrently pnpm:test:client pnpm:test:ssr",
     "test:client": "vitest",
+    "test:coverage": "pnpm run test:client --coverage",
     "test:ssr": "pnpm run test:client --mode ssr",
     "prepublishOnly": "pnpm build",
     "format": "oxfmt",
@@ -64,6 +65,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.12.0",
+    "@vitest/coverage-v8": "^4.1.2",
     "concurrently": "^8.2.2",
     "jsdom": "^24.0.0",
     "oxfmt": "^0.41.0",
@@ -74,7 +76,7 @@
     "typescript": "^5.4.5",
     "vite": "^8.0.0",
     "vite-plugin-solid": "^2.11.8",
-    "vitest": "^4.0.17"
+    "vitest": "^4.1.2"
   },
   "peerDependencies": {
     "solid-js": "^1.9.0"
