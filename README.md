@@ -3,6 +3,10 @@
 [![pnpm](https://img.shields.io/badge/maintained%20with-pnpm-cc00ff.svg?style=for-the-badge&logo=pnpm)](https://pnpm.io/)
 [![codecov](https://codecov.io/gh/hatchling13/munchkeen/graph/badge.svg)](https://codecov.io/gh/hatchling13/munchkeen)
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/hatchling13/munchkeen/main/assets/munchkeen.png" alt="munchkeen logo generated with ChatGPT" width="256" />
+</p>
+
 `munchkeen` is a Solid-first interactive graph exploration toolkit.
 
 In v1, Cytoscape.js is the first renderer adapter and the first production renderer, but the library is architected around a renderer-neutral graph, projection, layout, scene, and renderer-command pipeline.

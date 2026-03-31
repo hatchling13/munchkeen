@@ -1,11 +1,19 @@
 {
   "name": "munchkeen",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.1.0",
+  "private": false,
   "description": "Solid-first interactive graph exploration toolkit with Cytoscape.js as the first renderer",
   "keywords": [
-    "solid"
+    "cytoscape",
+    "graph",
+    "graph-exploration",
+    "graph-visualization",
+    "network-graph",
+    "solid",
+    "solidjs",
+    "visualization"
   ],
+  "homepage": "https://munchkeen.hatchling.dev",
   "bugs": {
     "url": "https://github.com/hatchling13/munchkeen/issues"
   },
@@ -13,6 +21,10 @@
   "author": {
     "name": "Jung Wook Park",
     "email": "me@hatchling.dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hatchling13/munchkeen.git"
   },
   "files": [
     "dist"
